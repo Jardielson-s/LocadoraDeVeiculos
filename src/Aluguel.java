@@ -24,12 +24,7 @@ public class Aluguel {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-   /* public Date getData() {
-        return data;
-    }
-    //public void setData(Date data) {
-        this.data = data;
-    }*/
+   
     public int getDias() {
         return dias;
     }
