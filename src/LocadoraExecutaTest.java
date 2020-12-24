@@ -272,10 +272,14 @@ public class LocadoraExecutaTest {
         l.registrarAluguel(onibus,10,cliente);
 
         l.registrarDevolucao(onibus.getPlaca(), cliente);
+        // como o ônibus não está mais alugado então é possivel alugá-lo
+        l.registrarAluguel(onibus,20,cliente);
 
-        l.registrarAluguel(carro,50,cliente);
 
-        Assert.assertEquals(50,l.quantidadeTotalDeDiarias(0));
+
+        //l.registrarAluguel(carro,50,cliente);
+
+        Assert.assertEquals(20,l.quantidadeTotalDeDiarias(0));
 
     }
 

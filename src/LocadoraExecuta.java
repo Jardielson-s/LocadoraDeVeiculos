@@ -18,9 +18,11 @@ public class LocadoraExecuta extends Locadora {
     }
 
     public void inserir(Veiculo v) {
-        if (!pesquisarPlaca(v)) {
-            RepositorioVeiculos.add(v);
-        }
+
+            if (!pesquisarPlaca(v)) {
+                RepositorioVeiculos.add(v);
+            }
+
     }
 
     public void cadastrar(Veiculo v) {
@@ -30,15 +32,15 @@ public class LocadoraExecuta extends Locadora {
 
 
     public void registrarAluguel(Veiculo placa, int dias,Cliente c) {
-            // Aluguel a1 = new Aluguel();
+
             for(Aluguel aux : alugueis) {
                 if(aux.getVeiculo().getPlaca().equals(placa.getPlaca())  || aux.getCliente().getCpf().equals(c.getCpf())){
-                    if(aux.getAlugado()) {
+                    if(aux.getAlugado() || aux.getCliente().getCpf().equals(c.getCpf())) {
                         return;
                     }
                 }
-
             }
+
             Veiculo aux = pesquisar(placa.getPlaca());
             if (procurarCliente(c.getCpf()) != null) {
                 for (Veiculo v : RepositorioVeiculos) {
@@ -160,6 +162,7 @@ public class LocadoraExecuta extends Locadora {
     }
 
     public void depreciaValorVeiculo(String placa,double taxa){
+
         Veiculo aux = pesquisar(placa);
 
         if (aux != null) {
@@ -171,11 +174,13 @@ public class LocadoraExecuta extends Locadora {
 
     @Override
     public void registrarDevolucao(String placa, Cliente c) {
-        for (Aluguel x : alugueis) {
-            if (placa.equals(x.getVeiculo().getPlaca())) {
-                x.setAlugado(false);
-            }
-        }
+
+          for (int i = 0; i < alugueis.size(); i++) {
+              if (placa.equals(alugueis.get(i).getVeiculo().getPlaca()) && alugueis.get(i).getAlugado()) {
+                  System.out.println(alugueis.get(i).getVeiculo().getPlaca());
+                  alugueis.remove(alugueis.get(i));
+              }
+          }
     }
 
     @Override
