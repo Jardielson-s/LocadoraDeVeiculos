@@ -108,7 +108,7 @@ public class LocadoraExecuta extends Locadora {
         for (Veiculo aux1 : RepositorioVeiculos) {
             if (aux1 instanceof Carro) {
                 if (((Carro) aux1).getCategoria() == tipoCarro) {
-                    RepositorioVeiculos.add(aux1);
+                    aux.add(aux1);
                 }
             }
         }
@@ -148,20 +148,24 @@ public class LocadoraExecuta extends Locadora {
         }
         return 0;
     }
+    public void aumentarValorVeiculo(String placa,double taxa){
+        Veiculo aux = pesquisar(placa);
 
-    //@Override
-   /* public void registrarAluguel(Veiculo placa, int dias, Cliente c) {
-
-        for (Veiculo aux : RepositorioVeiculos) {
-            if (aux.getPlaca().equals(placa.getPlaca())) {
-                Aluguel auxAl = new Aluguel();
-                auxAl.cadastrar(placa, dias, c);
-                alugueis.add(auxAl);
-            }
+        if (aux != null) {
+            aux.aumentarValorAvaliado(taxa);
         }
 
     }
-    */
+
+    public void depreciaValorVeiculo(String placa,double taxa){
+        Veiculo aux = pesquisar(placa);
+
+        if (aux != null) {
+            aux.depressiacaoValores(taxa);
+        }
+
+    }
+
 
     @Override
     public void registrarDevolucao(String placa, Cliente c) {
@@ -406,6 +410,129 @@ public class LocadoraExecuta extends Locadora {
             }
             return dias;
         }
+
+    public double consultaAluguel(int veiculo,int qunatidadeDias,String placa) {
+        //barra se o veiculo não for do tipo certo
+        if(veiculo > 4 || veiculo < 0){
+            return 9999999;
+        }
+        System.out.println("aaa");
+        for(Veiculo v : RepositorioVeiculos) {
+            switch (veiculo) {
+                case 1:
+                    if (placa.equals(v.getPlaca())) {
+                        if(v instanceof Moto) {
+                            return v.retornaValorAluguel(qunatidadeDias);
+                        }
+                    }
+                    break;
+                case 2:
+                    if (placa.equals(v.getPlaca())) {
+                        if(v instanceof Carro) {
+                            return v.retornaValorAluguel(qunatidadeDias);
+                        }
+                    }
+                    break;
+                case 3:
+                    if (placa.equals(v.getPlaca())) {
+                        if(v instanceof Caminhao) {
+                            return v.retornaValorAluguel(qunatidadeDias);
+                        }
+                    }
+                    break;
+                case 4:
+                    if (placa.equals(v.getPlaca())) {
+                        if(v instanceof Onibus) {
+                            return v.retornaValorAluguel(qunatidadeDias);
+                        }
+                    }
+                    break;
+            }
+        }
+        //caso não encontre nada
+        return 0;
     }
+    public String consultarFrota(int CapacidadeDeCarga, int cilindradas, int categoria, int capacidadePassageriso) {
+
+        ArrayList<String> frota = new ArrayList<>();
+        if (cilindradas != 0) {
+            for (Veiculo moto : RepositorioVeiculos) {
+                if(moto instanceof Moto) {
+                    if (((Moto) moto).getCilindrada() >= cilindradas) {
+                        frota.add(moto.toString());
+                    }
+                }
+            }
+        }
+        if (categoria != 0) {
+            for (Veiculo carro : RepositorioVeiculos) {
+                if(carro instanceof Carro) {
+                    if (((Carro) carro).getCategoria() == categoria) {
+                        frota.add(carro.toString());
+                    }
+                }
+            }
+        }
+        if (capacidadePassageriso != 0) {
+            for (Veiculo onibus : RepositorioVeiculos) {
+                if(onibus instanceof Onibus) {
+                    if (((Onibus) onibus).getQunatidadePassageiro() >= capacidadePassageriso) {
+                        frota.add(onibus.toString());
+                    }
+                }
+            }
+        }
+        if (CapacidadeDeCarga != 0) {
+            for (Veiculo caminhao : RepositorioVeiculos) {
+                if(caminhao instanceof Caminhao) {
+                    if (((Caminhao) caminhao).getCarga() >= CapacidadeDeCarga) {
+                        frota.add(caminhao.toString());
+                    }
+                }
+            }
+        }
+
+        return frota.toString();
+    }
+
+    public double consultaSeguro(int veiculo, String placa){
+
+        // barra tipo que não existe
+        if (veiculo > 4 || veiculo < 0) {
+            System.out.println("TIPO DE CARRO NÃO EXISTE NO REPOSIORIO");
+            return -9999999;
+        }
+        for(Veiculo v : RepositorioVeiculos) {
+            if (placa.equals(v.getPlaca())) {
+
+                switch (veiculo) {
+                    case 1:
+                        if(v instanceof Moto) {
+                            return v.retornaValorSeguro();
+                        }
+                    case 2:
+                        if(v instanceof Carro) {
+                            return v.retornaValorSeguro();
+                        }
+                    case 3:
+                        if(v instanceof Caminhao) {
+                            return v.retornaValorSeguro();
+                        }
+                    case 4:
+                        if(v instanceof Onibus) {
+                            return v.retornaValorSeguro();
+                        }
+                }
+            }
+
+
+
+        }
+        //caso não encontre nada
+        return 0;
+    }
+
+
+}
 
 

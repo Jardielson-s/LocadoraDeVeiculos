@@ -10,6 +10,7 @@ public class Moto extends Veiculo {
 
     @Override
     public double retornaValorSeguro() {
+
         return (valorAvaliado*11/100) / 365;
     }
 
