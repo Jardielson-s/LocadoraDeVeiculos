@@ -84,7 +84,7 @@ public class LocadoraExecuta extends Locadora {
         ArrayList<Veiculo> aux = new ArrayList<>();
         for (Veiculo v : RepositorioVeiculos) {
             if (v instanceof Moto) {
-                if (((Moto) v).getCilindrada() == cilindrada) {
+                if (((Moto) v).getCilindrada() >= cilindrada) {
                     aux.add(v);
                 }
             }
@@ -120,8 +120,8 @@ public class LocadoraExecuta extends Locadora {
         ArrayList<Veiculo> aux = new ArrayList<>();
         for (Veiculo aux1 : RepositorioVeiculos) {
             if (aux1 instanceof Caminhao) {
-                if (((Caminhao) aux1).getCarga() == carga) {
-                    RepositorioVeiculos.add(aux1);
+                if (((Caminhao) aux1).getCarga() >= carga) {
+                    aux.add(aux1);
                 }
             }
         }
@@ -133,7 +133,9 @@ public class LocadoraExecuta extends Locadora {
         ArrayList<Veiculo> aux = new ArrayList<>();
         for (Veiculo aux1 : RepositorioVeiculos) {
             if (aux1 instanceof Onibus) {
-                RepositorioVeiculos.add(aux1);
+                if (((Onibus) aux1).getQunatidadePassageiro() >= passageiros) {
+                    aux.add(aux1);
+                }
             }
         }
         return aux;
@@ -257,85 +259,96 @@ public class LocadoraExecuta extends Locadora {
         }
     }
 
-    @Override
-    public void aumentarDiaria(int tipo, double taxaAumento) {
-        switch (tipo) {
-            case 0:
-                for (Veiculo aux : RepositorioVeiculos) {
-                    aux.aumentarPrecoDiaria(taxaAumento);
-                }
-                for (Aluguel aux1 : alugueis) {
-                    Veiculo aux2;
-                    aux2 = aux1.getVeiculo();
-                    aux2.aumentarPrecoDiaria(taxaAumento);
-                    aux1.setVeiculo(aux2);
-                }
-                break;
-            case 1:
-                for (Veiculo aux : RepositorioVeiculos) {
-                    if (aux instanceof Moto) {
-                         aux.aumentarPrecoDiaria(taxaAumento);
-                    }
-                }
-                for (Aluguel aux : alugueis) {
-                    Veiculo aux1 = aux.getVeiculo();
-                    if (aux1 instanceof Moto) {
-                        Veiculo aux3;
-                        aux3 = aux.getVeiculo();
-                        aux3.aumentarPrecoDiaria(taxaAumento);
-                        aux.setVeiculo(aux3);
-                    }
-                }
-                break;
-            case 2:
-                for (Veiculo aux : RepositorioVeiculos) {
-                    if (aux instanceof Carro) {
+
+
+        @Override
+        public void aumentarDiaria(int tipo, double taxaAumento) {
+            switch (tipo) {
+                case 0:
+                    for (Veiculo aux : RepositorioVeiculos) {
                         aux.aumentarPrecoDiaria(taxaAumento);
                     }
-                }
-                for (Aluguel aux : alugueis) {
-                    Veiculo aux1 = aux.getVeiculo();
-                    if (aux1 instanceof Carro) {
+                    for (Aluguel aux1 : alugueis) {
                         Veiculo aux2;
-                        aux2 = aux.getVeiculo();
+                        aux2 = aux1.getVeiculo();
                         aux2.aumentarPrecoDiaria(taxaAumento);
-                        aux.setVeiculo(aux2);
+                        aux1.setVeiculo(aux2);
                     }
-                }
-                break;
-            case 3:
-                for (Veiculo aux : RepositorioVeiculos) {
-                    if (aux instanceof Caminhao) {
-                        aux.aumentarPrecoDiaria(taxaAumento);
+                    break;
+                case 1:
+                    for (Veiculo aux : RepositorioVeiculos) {
+                        if (aux instanceof Moto) {
+                             aux.aumentarPrecoDiaria(taxaAumento);
+                        }
                     }
-                }
-                for (Aluguel aux : alugueis) {
-                    Veiculo aux1 = aux.getVeiculo();
-                    if (aux1 instanceof Caminhao) {
-                        Veiculo aux2;
-                        aux2 = aux.getVeiculo();
-                        aux2.aumentarPrecoDiaria(taxaAumento);
-                        aux.setVeiculo(aux2);
+                    for (Aluguel aux : alugueis) {
+                        Veiculo aux1 = aux.getVeiculo();
+                        if (aux1 instanceof Moto) {
+                            Veiculo aux3;
+                            aux3 = aux.getVeiculo();
+                            aux3.aumentarPrecoDiaria(taxaAumento);
+                            aux.setVeiculo(aux3);
+                        }
                     }
-                }
-                break;
-            case 4:
-                for (Veiculo aux : RepositorioVeiculos) {
-                    if (aux instanceof Onibus) {
-                        aux.aumentarPrecoDiaria(taxaAumento);
+                    break;
+                case 2:
+                    for (Veiculo aux : RepositorioVeiculos) {
+                        if (aux instanceof Carro) {
+                            aux.aumentarPrecoDiaria(taxaAumento);
+                        }
                     }
-                }
-                for (Aluguel aux : alugueis) {
-                    Veiculo aux1 = aux.getVeiculo();
-                    if (aux1 instanceof Onibus) {
-                        Veiculo aux2;
-                        aux2 = aux.getVeiculo();
-                        aux2.aumentarPrecoDiaria(taxaAumento);
-                        aux.setVeiculo(aux2);
+                    for (Aluguel aux : alugueis) {
+                        Veiculo aux1 = aux.getVeiculo();
+                        if (aux1 instanceof Carro) {
+                            Veiculo aux2;
+                            aux2 = aux.getVeiculo();
+                            aux2.aumentarPrecoDiaria(taxaAumento);
+                            aux.setVeiculo(aux2);
+                        }
                     }
-                }
-                break;
+                    break;
+                case 3:
+                    for (Veiculo aux : RepositorioVeiculos) {
+                        if (aux instanceof Caminhao) {
+                            aux.aumentarPrecoDiaria(taxaAumento);
+                        }
+                    }
+                    for (Aluguel aux : alugueis) {
+                        Veiculo aux1 = aux.getVeiculo();
+                        if (aux1 instanceof Caminhao) {
+                            Veiculo aux2;
+                            aux2 = aux.getVeiculo();
+                            aux2.aumentarPrecoDiaria(taxaAumento);
+                            aux.setVeiculo(aux2);
+                        }
+                    }
+                    break;
+                case 4:
+                    for (Veiculo aux : RepositorioVeiculos) {
+                        if (aux instanceof Onibus) {
+                            aux.aumentarPrecoDiaria(taxaAumento);
+                        }
+                    }
+                    for (Aluguel aux : alugueis) {
+                        Veiculo aux1 = aux.getVeiculo();
+                        if (aux1 instanceof Onibus) {
+                            Veiculo aux2;
+                            aux2 = aux.getVeiculo();
+                            aux2.aumentarPrecoDiaria(taxaAumento);
+                            aux.setVeiculo(aux2);
+                        }
+                    }
+                    break;
+            }
         }
+
+    public void diminuirDiaria(String placa,double taxa){
+
+        Veiculo v = pesquisar(placa);
+        if (placa.equals(v.getPlaca())) {
+            v.reduzirPrecoDiaria(taxa);
+        }
+
     }
 
     @Override
@@ -414,9 +427,8 @@ public class LocadoraExecuta extends Locadora {
     public double consultaAluguel(int veiculo,int qunatidadeDias,String placa) {
         //barra se o veiculo não for do tipo certo
         if(veiculo > 4 || veiculo < 0){
-            return 9999999;
+            return -9999999;
         }
-        System.out.println("aaa");
         for(Veiculo v : RepositorioVeiculos) {
             switch (veiculo) {
                 case 1:
