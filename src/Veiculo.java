@@ -1,4 +1,4 @@
-public class Veiculo {
+abstract public class Veiculo {
     private String marca;
     private String modelo;
     private int anoDeFabricacao;
@@ -18,29 +18,17 @@ public class Veiculo {
         this.placa = placa;
 
     }
-    public double retornaValorSeguro(){
-        return (valorAvaliado*8/100)/365;
-    }
+    abstract public double retornaValorSeguro();
 
-    public double retornaValorAluguel(int quantidadeDias){
-        return ((valorDiaria + retornaValorSeguro()) * quantidadeDias);
-    }
+    abstract public double retornaValorAluguel(int quantidadeDias);
 
-    public void reduzirPrecoDiaria(double taxa){
-         this.valorDiaria = valorDiaria - (taxa * 10/100);
-    }
+    abstract public void reduzirPrecoDiaria(double taxa);
 
-    public void aumentarPrecoDiaria(double taxa){
-        this.valorDiaria = valorDiaria + ((valorDiaria * taxa) /100);
-    }
+    abstract public void aumentarPrecoDiaria(double taxa);
 
-    public void depressiacaoValores(double taxa) {
-        this.valorAvaliado = this.valorAvaliado-(this.valorAvaliado*taxa/100);
-    }
+    abstract public void depressiacaoValores(double taxa);
 
-    public void aumentarValorAvaliado(double taxa){
-        this.valorAvaliado = valorAvaliado + ((valorAvaliado * taxa) / 100);
-    }
+    abstract public void aumentarValorAvaliado(double taxa);
 
     public double getValorAvaliado() {
         return valorAvaliado;

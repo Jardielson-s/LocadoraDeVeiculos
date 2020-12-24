@@ -3,49 +3,41 @@ public class Carro extends Veiculo {
     // 1 (passeio), 2 (SUV), 3 (pickup)
 
     final private int categoria;
+
     Carro(String marca, String modelo, int anoDeFabricacao, double valorAvaliado, double valorDiaria, String placa, int categoria) {
         super(marca, modelo, anoDeFabricacao, valorAvaliado, valorDiaria, placa);
         this.categoria = categoria;
 
     }
 
-
-
-
-    /*
-     * (valor da diária + seguro) * quantidade de dias */
-
     @Override
-    public double retornaValorAluguel(int quantidadeDias) {
-        return super.retornaValorAluguel(quantidadeDias);
+    public double retornaValorSeguro() {
+        return (valorAvaliado*3/100) / 365;
     }
 
     @Override
-    public double retornaValorSeguro() {
-        return super.retornaValorSeguro();
+    public double retornaValorAluguel(int quantidadeDias) {
+        return ((valorDiaria + retornaValorSeguro()) * quantidadeDias);
     }
 
     @Override
     public void reduzirPrecoDiaria(double taxa) {
-        super.reduzirPrecoDiaria(taxa);
+        this.valorDiaria = valorDiaria - (taxa * 10/100);
     }
 
     @Override
     public void aumentarPrecoDiaria(double taxa) {
-        super.aumentarPrecoDiaria(taxa);
+        this.valorDiaria = getValorDiaria() + ((getValorDiaria() * taxa) /100);
     }
 
-
-    public double aluguel(int dias) {
-        return (this.valorDiaria + retornaValorSeguro()) * dias;
-    }
-    public void aumentarDiaria(double taxa) {
-        this.valorDiaria = this.valorDiaria + (this.valorDiaria*taxa);
+    @Override
+    public void depressiacaoValores(double taxa) {
+        this.valorAvaliado = this.valorAvaliado-(this.valorAvaliado*taxa/100);
     }
 
     @Override
     public void aumentarValorAvaliado(double taxa) {
-        super.aumentarValorAvaliado(taxa);
+        this.valorAvaliado = valorAvaliado + ((valorAvaliado * taxa) / 100);
     }
 
     public int getCategoria() {

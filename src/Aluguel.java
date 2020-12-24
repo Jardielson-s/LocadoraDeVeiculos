@@ -1,5 +1,3 @@
-import java.util.Date;
-
 public class Aluguel {
 
     private Cliente cliente;
@@ -24,7 +22,7 @@ public class Aluguel {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-   
+
     public int getDias() {
         return dias;
     }

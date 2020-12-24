@@ -1,7 +1,7 @@
 public class Cliente {
 
-    private String nome;
-    private String cpf;
+    private final String nome;
+    private final String cpf;
 
     public Cliente(String nome, String cpf){
         this.nome = nome;
