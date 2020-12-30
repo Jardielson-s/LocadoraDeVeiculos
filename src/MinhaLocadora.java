@@ -1,7 +1,8 @@
 import java.util.ArrayList;
+import java.util.Date;
 
 
-public class LocadoraExecuta extends Locadora {
+public class MinhaLocadora extends Locadora {
 
 
     ArrayList<Veiculo> RepositorioVeiculos = new ArrayList<>();
@@ -17,12 +18,13 @@ public class LocadoraExecuta extends Locadora {
         return false;
     }
 
-    public void inserir(Veiculo v) {
+    public boolean inserir(Veiculo v) {
 
             if (!pesquisarPlaca(v)) {
                 RepositorioVeiculos.add(v);
             }
 
+        return false;
     }
 
     public void cadastrar(Veiculo v) {
@@ -31,49 +33,47 @@ public class LocadoraExecuta extends Locadora {
     }
 
 
-    public void registrarAluguel(Veiculo placa, int dias,Cliente c) {
+    public boolean registrarAluguel(String placa, Date date,int dias,int cpf) {
 
             for(Aluguel aux : alugueis) {
-                if(aux.getVeiculo().getPlaca().equals(placa.getPlaca())  || aux.getCliente().getCpf().equals(c.getCpf())){
-                    if(aux.getAlugado() || aux.getCliente().getCpf().equals(c.getCpf())) {
-                        return;
+                    if(aux.getAlugado() || aux.getCliente().getCpf() == cpf) {
+                        return false;
                     }
-                }
             }
 
-            Veiculo aux = pesquisar(placa.getPlaca());
-            if (procurarCliente(c.getCpf()) != null) {
+            Veiculo aux = pesquisar(placa);
+            if (pesquisarCliente(cpf) != null) {
                 for (Veiculo v : RepositorioVeiculos) {
                     if(v.getPlaca().equals(aux.getPlaca()))
                         if (aux.getPlaca() != null) {
                             Aluguel a = new Aluguel();
-                            c = new Cliente(c.getNome(), c.getCpf());
-                            a.cadastrar(v,dias,c);
+                            a.cadastrar(v,dias,cpf);
                             a.setAlugado(true);
                             alugueis.add(a);
+                            return true;
                         }
                 }
 
-            } else {
-                System.out.println("CLIENTE INEXISTENTE");
             }
 
-
-        }
+        return false;
+    }
 
 
 
     @Override
-    public void inserir(Cliente c) {
-        if(procurarCliente(c.getCpf()) == null)
+    public boolean inserir(Cliente c) {
+        if(pesquisarCliente(c.getCpf()) == null)
         {
             cliente.add(c);
+            return true;
         }
+        return false;
     }
 
-    private Cliente procurarCliente(String cpf){
+    protected Cliente pesquisarCliente(int cpf){
         for(Cliente c : cliente){
-            if(c.getCpf().equals(cpf)){
+            if(c.getCpf() == cpf){
                 return c;
             }
         }
@@ -152,6 +152,8 @@ public class LocadoraExecuta extends Locadora {
         }
         return 0;
     }
+
+
     public void aumentarValorVeiculo(String placa,double taxa){
         Veiculo aux = pesquisar(placa);
 
@@ -173,14 +175,15 @@ public class LocadoraExecuta extends Locadora {
 
 
     @Override
-    public void registrarDevolucao(String placa, Cliente c) {
+    public boolean registrarDevolucao(String placa) {
 
           for (int i = 0; i < alugueis.size(); i++) {
               if (placa.equals(alugueis.get(i).getVeiculo().getPlaca()) && alugueis.get(i).getAlugado()) {
-                  System.out.println(alugueis.get(i).getVeiculo().getPlaca());
                   alugueis.remove(alugueis.get(i));
+                  return true;
               }
           }
+        return false;
     }
 
     @Override
@@ -357,19 +360,25 @@ public class LocadoraExecuta extends Locadora {
     }
 
     @Override
-    public double faturamentoTotal(int tipo) {
+    public double faturamentoTotal(int tipo,Date inicio,Date fim) {
         double valor = 0;
+
         for (Aluguel a : alugueis) {
             Veiculo aux = a.getVeiculo();
-
+            int date = a.getDias();
             if (a.getAlugado()) {
+                var b =true;// inicio.compareTo(fim) >= inicio.compareTo(date);
                 switch (tipo) {
                     case 0:
                         valor = valor + a.getVeiculo().retornaValorAluguel(a.getDias());
                         break;
                     case 1:
                         if (aux instanceof Moto) {
-                            valor += a.getVeiculo().retornaValorAluguel(a.getDias());
+                            if(b) {
+                                //System.out.println(a.get);
+                                valor += a.getVeiculo().retornaValorAluguel(a.getDias());
+                            }
+                            //valor += a.getVeiculo().retornaValorAluguel(a.getDias().getDay());
                         }
                         break;
                     case 2:
@@ -394,33 +403,47 @@ public class LocadoraExecuta extends Locadora {
     }
 
         @Override
-        public int quantidadeTotalDeDiarias ( int tipo){
+        public int quantidadeTotalDeDiarias(int tipo, Date inicio, Date fim){
             int dias = 0;
+
             for (Aluguel a : alugueis) {
                 Veiculo aux = a.getVeiculo();
+                int date = a.getDias();
+
                 if (a.getAlugado()) {
+                    var b = true;//inicio.compareTo(fim) >= inicio.compareTo(date);
                     switch (tipo) {
                         case 0:
-                            dias += a.getDias();
+                            if(b) {
+                                dias += a.getDias();
+                            }
                             break;
                         case 1:
                             if (aux instanceof Moto) {
-                                dias += a.getDias();
+                                if(b) {
+                                    dias += a.getDias();
+                                }
                             }
                             break;
                         case 2:
                             if (aux instanceof Carro) {
-                                dias += a.getDias();
+                                if(b) {
+                                    dias += a.getDias();
+                                }
                             }
                             break;
                         case 3:
                             if (aux instanceof Caminhao) {
-                                dias += a.getDias();
+                                if(b) {
+                                    dias += a.getDias();
+                                }
                             }
                             break;
                         case 4:
                             if (aux instanceof Onibus) {
-                                dias += a.getDias();
+                                if(b) {
+                                    dias += a.getDias();
+                                }
                             }
                             break;
                     }

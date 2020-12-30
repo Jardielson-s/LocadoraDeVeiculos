@@ -1,9 +1,10 @@
 import java.util.ArrayList;
+import java.util.Date;
 
 public abstract class Locadora {
 
    // public abstract void inserir(Veiculos v);
-    public abstract void inserir(Cliente c);
+    public abstract boolean inserir(Cliente c);
     public abstract <pesquisarMoto> Veiculo pesquisar(String placa);
 
     public abstract ArrayList<Veiculo> pesquisarMoto(int cilindrada);
@@ -19,13 +20,13 @@ public abstract class Locadora {
     //Seguro Ônibus = (valor do bem * 20%)/365
     //Aluguel = (valor da diária + seguro) * quantidade de dias
     public abstract double calcularAluguel(String placa, int dias);
-    public abstract void registrarAluguel(Veiculo placa, int dias, Cliente c);
-    public abstract void registrarDevolucao(String placa, Cliente c);
+    public abstract boolean registrarAluguel(String placa, Date date,int dias, int cpf);
+    public abstract boolean registrarDevolucao(String placa);
 
     // tipo de veiculo
     // 0 (todos), 1 (moto), 2 (carro), 3 (caminhão), 4 (ônibus)
     public abstract void depreciarVeiculos(int tipo, double taxaDepreciacao);
     public abstract void aumentarDiaria(int tipo, double taxaAumento);
-    public abstract double faturamentoTotal(int tipo);
-    public abstract int quantidadeTotalDeDiarias(int tipo);
+    public abstract double faturamentoTotal(int tipo, Date inicio, Date fim);
+    public abstract int quantidadeTotalDeDiarias(int tipo, Date inicio, Date fim);
 }

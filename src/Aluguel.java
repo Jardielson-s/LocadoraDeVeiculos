@@ -1,10 +1,14 @@
+import java.util.Date;
+
 public class Aluguel {
 
     private Cliente cliente;
+    private int cpf;
     private Veiculo placa;
     private boolean alugado;
 
     private int dias;
+   // private Date dias;
     public void setAlugado(boolean alugado){
         this.alugado = alugado;
     }
@@ -23,15 +27,23 @@ public class Aluguel {
         this.cliente = cliente;
     }
 
+    public int getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(int cpf) {
+        this.cpf = cpf;
+    }
+
     public int getDias() {
         return dias;
     }
     public void setDias(int dias) {
         this.dias = dias;
     }
-    public void cadastrar(Veiculo placa, int dias, Cliente cliente) {
+    public void cadastrar(Veiculo placa, int dias, int cpf) {
         this.dias = dias;
-        this.cliente = cliente;
+        this.cpf = cpf;
         this.placa = placa;
     }
     }
