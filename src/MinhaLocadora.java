@@ -22,15 +22,18 @@ public class MinhaLocadora extends Locadora {
 
             if (!pesquisarPlaca(v)) {
                 RepositorioVeiculos.add(v);
+                return true;
             }
 
         return false;
     }
 
-    public void cadastrar(Veiculo v) {
+   /* public boolean cadastrar(Veiculo v) {
 
-        inserir(v);
+        return inserir(v);
+
     }
+    */
 
 
     public boolean registrarAluguel(String placa, Date date,int dias,int cpf) {
@@ -109,7 +112,7 @@ public class MinhaLocadora extends Locadora {
         ArrayList<Veiculo> aux = new ArrayList<>();
         for (Veiculo aux1 : RepositorioVeiculos) {
             if (aux1 instanceof Carro) {
-                if (((Carro) aux1).getCategoria() == tipoCarro) {
+                if (((Carro) aux1).getTipo() == tipoCarro) {
                     aux.add(aux1);
                 }
             }
@@ -163,15 +166,6 @@ public class MinhaLocadora extends Locadora {
 
     }
 
-    public void depreciaValorVeiculo(String placa,double taxa){
-
-        Veiculo aux = pesquisar(placa);
-
-        if (aux != null) {
-            aux.depressiacaoValores(taxa);
-        }
-
-    }
 
 
     @Override
@@ -365,35 +359,38 @@ public class MinhaLocadora extends Locadora {
 
         for (Aluguel a : alugueis) {
             Veiculo aux = a.getVeiculo();
-            int date = a.getDias();
             if (a.getAlugado()) {
-                var b =true;// inicio.compareTo(fim) >= inicio.compareTo(date);
+                var b =  inicio.compareTo(fim) >= inicio.compareTo(new Date());
                 switch (tipo) {
                     case 0:
-                        valor = valor + a.getVeiculo().retornaValorAluguel(a.getDias());
+                        if(b) {
+                            valor += a.getVeiculo().retornaValorAluguel(a.getDias());
+                        }
                         break;
                     case 1:
                         if (aux instanceof Moto) {
                             if(b) {
-                                //System.out.println(a.get);
                                 valor += a.getVeiculo().retornaValorAluguel(a.getDias());
                             }
-                            //valor += a.getVeiculo().retornaValorAluguel(a.getDias().getDay());
                         }
                         break;
                     case 2:
                         if (aux instanceof Carro) {
-                            valor += a.getVeiculo().retornaValorAluguel(a.getDias());
-                        }
+                            if(b) {
+                                valor += a.getVeiculo().retornaValorAluguel(a.getDias());
+                            }                        }
                         break;
                     case 3:
                         if (aux instanceof Caminhao) {
-                            valor += a.getVeiculo().retornaValorAluguel(a.getDias());
-                        }
+                            if(b) {
+                                valor += a.getVeiculo().retornaValorAluguel(a.getDias());
+                            }                        }
                         break;
                     case 4:
                         if (aux instanceof Onibus) {
-                            valor += a.getVeiculo().retornaValorAluguel(a.getDias());
+                            if(b) {
+                                valor += a.getVeiculo().retornaValorAluguel(a.getDias());
+                            }
                         }
                         break;
                 }
@@ -408,10 +405,8 @@ public class MinhaLocadora extends Locadora {
 
             for (Aluguel a : alugueis) {
                 Veiculo aux = a.getVeiculo();
-                int date = a.getDias();
-
                 if (a.getAlugado()) {
-                    var b = true;//inicio.compareTo(fim) >= inicio.compareTo(date);
+                    var b = inicio.compareTo(fim) >= inicio.compareTo(new Date());
                     switch (tipo) {
                         case 0:
                             if(b) {
@@ -452,7 +447,7 @@ public class MinhaLocadora extends Locadora {
             return dias;
         }
 
-    public double consultaAluguel(int veiculo,int qunatidadeDias,String placa) {
+    public double consultarAluguel(int veiculo,int qunatidadeDias,String placa) {
         //barra se o veiculo não for do tipo certo
         if(veiculo > 4 || veiculo < 0){
             return -9999999;
@@ -492,14 +487,14 @@ public class MinhaLocadora extends Locadora {
         //caso não encontre nada
         return 0;
     }
-    public String consultarFrota(int CapacidadeDeCarga, int cilindradas, int categoria, int capacidadePassageriso) {
+    public ArrayList<Veiculo> consultarFrota(int CapacidadeDeCarga, int cilindradas, int categoria, int capacidadePassageriso) {
 
-        ArrayList<String> frota = new ArrayList<>();
+        ArrayList<Veiculo> frota = new ArrayList<>();
         if (cilindradas != 0) {
             for (Veiculo moto : RepositorioVeiculos) {
                 if(moto instanceof Moto) {
                     if (((Moto) moto).getCilindrada() >= cilindradas) {
-                        frota.add(moto.toString());
+                        frota.add(moto);
                     }
                 }
             }
@@ -507,8 +502,8 @@ public class MinhaLocadora extends Locadora {
         if (categoria != 0) {
             for (Veiculo carro : RepositorioVeiculos) {
                 if(carro instanceof Carro) {
-                    if (((Carro) carro).getCategoria() == categoria) {
-                        frota.add(carro.toString());
+                    if (((Carro) carro).getTipo() == categoria) {
+                        frota.add(carro);
                     }
                 }
             }
@@ -517,7 +512,7 @@ public class MinhaLocadora extends Locadora {
             for (Veiculo onibus : RepositorioVeiculos) {
                 if(onibus instanceof Onibus) {
                     if (((Onibus) onibus).getQunatidadePassageiro() >= capacidadePassageriso) {
-                        frota.add(onibus.toString());
+                        frota.add(onibus);
                     }
                 }
             }
@@ -526,16 +521,16 @@ public class MinhaLocadora extends Locadora {
             for (Veiculo caminhao : RepositorioVeiculos) {
                 if(caminhao instanceof Caminhao) {
                     if (((Caminhao) caminhao).getCarga() >= CapacidadeDeCarga) {
-                        frota.add(caminhao.toString());
+                        frota.add(caminhao);
                     }
                 }
             }
         }
 
-        return frota.toString();
+        return frota;
     }
 
-    public double consultaSeguro(int veiculo, String placa){
+    public double consultarSeguro(int veiculo, String placa){
 
         // barra tipo que não existe
         if (veiculo > 4 || veiculo < 0) {

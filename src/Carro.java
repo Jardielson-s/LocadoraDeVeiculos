@@ -2,11 +2,11 @@ public class Carro extends Veiculo {
 
     // 1 (passeio), 2 (SUV), 3 (pickup)
 
-    final private int categoria;
+    final private int tipo;
 
     Carro(String marca, String modelo, int anoDeFabricacao, double valorAvaliado, double valorDiaria, String placa, int categoria) {
         super(marca, modelo, anoDeFabricacao, valorAvaliado, valorDiaria, placa);
-        this.categoria = categoria;
+        this.tipo = categoria;
 
     }
 
@@ -40,8 +40,8 @@ public class Carro extends Veiculo {
         this.valorAvaliado = valorAvaliado + ((valorAvaliado * taxa) / 100);
     }
 
-    public int getCategoria() {
-        return categoria;
+    public int getTipo() {
+        return tipo;
     }
 
 }

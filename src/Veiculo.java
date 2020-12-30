@@ -1,10 +1,10 @@
 abstract public class Veiculo {
-    private String marca;
-    private String modelo;
-    private int anoDeFabricacao;
+    protected String marca;
+    protected String modelo;
+    protected int anoDeFabricacao;
     protected double valorAvaliado;
     protected double valorDiaria;
-    private String placa;
+    protected String placa;
 
 
     Veiculo(String marca, String modelo, int anoDeFabricacao,

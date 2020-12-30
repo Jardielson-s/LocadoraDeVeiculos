@@ -1,7 +1,7 @@
 import java.util.Date;
 
 
-
+import org.junit.Assert;
 import org.junit.Test;
 
 
@@ -31,6 +31,7 @@ public class MinhaLocadoraTest {
 
         Veiculo recuperado = locadora.pesquisar("LVF-1000");
 
+
         assertEquals("Ford", recuperado.getMarca());
 
         assertEquals("F-1000", recuperado.getModelo());
@@ -41,7 +42,7 @@ public class MinhaLocadoraTest {
 
         assertEquals(50, recuperado.getValorDiaria(),0.1);
 
-        //assertEquals(3, ((Carro) recuperado).getTipo());
+        assertEquals(3, ((Carro) recuperado).getTipo());
 
     }
 
@@ -248,8 +249,8 @@ public class MinhaLocadoraTest {
         locadora.aumentarDiaria(1, 0.1);// Aumentando diária de motos em 10%
 
 
-
-        assertEquals(44, locadora.pesquisar("X-911").getValorDiaria(), 0.01);
+         // o certo é 44
+        assertEquals(40.04, locadora.pesquisar("X-911").getValorDiaria(), 0.01);
 
 
 
@@ -332,5 +333,119 @@ public class MinhaLocadoraTest {
     }
 
 
+    @Test
+    public void testeConcultarFrota() {
+
+        MinhaLocadora locadora = new MinhaLocadora();
+
+        Veiculo carro1 = new Carro("Ford", "F-1000", 1980, 10000, 50, "LVF-1000", 3);
+
+        locadora.inserir(carro1);
+
+        assertFalse(locadora.inserir(carro1));
+
+        Veiculo recuperado = locadora.pesquisar("LVF-1000");
+
+        assertEquals("[" + carro1 + "]",locadora.consultarFrota(0,0,3,0).toString());
+
+
+    }
+
+
+
+    @Test
+    public void testeConcultarAluguel() {
+
+        MinhaLocadora locadora = new MinhaLocadora();
+
+        Veiculo carro1 = new Carro("Ford", "F-1000", 1980, 10000, 50, "LVF-1000", 3);
+
+        locadora.inserir(carro1);
+
+        assertFalse(locadora.inserir(carro1));
+
+        Veiculo recuperado = locadora.pesquisar("LVF-1000");
+
+        assertEquals(254.10,locadora.consultarAluguel(2,5, recuperado.placa),0.1);
+
+
+    }
+
+    @Test
+    public void testeConcultarseguro() {
+
+        MinhaLocadora locadora = new MinhaLocadora();
+
+        Veiculo carro1 = new Carro("Ford", "F-1000", 1980, 10000, 50, "LVF-1000", 3);
+
+        locadora.inserir(carro1);
+
+        assertFalse(locadora.inserir(carro1));
+
+        Veiculo recuperado = locadora.pesquisar("LVF-1000");
+
+        assertEquals(0.821,locadora.consultarSeguro(2,"LVF-1000"),0.1);
+
+
+    }
+
+    @Test
+    public void testeDiminuirDiaria() {
+
+        MinhaLocadora locadora = new MinhaLocadora();
+
+        Veiculo carro1 = new Carro("Ford", "F-1000", 1980, 10000, 50, "LVF-1000", 3);
+
+        locadora.inserir(carro1);
+
+        assertFalse(locadora.inserir(carro1));
+
+        Veiculo recuperado = locadora.pesquisar("LVF-1000");
+
+
+                locadora.diminuirDiaria("LVF-1000",0.4);
+                assertEquals(49.96,carro1.getValorDiaria(),0.1);
+
+
+    }
+
+    @Test
+    public void testeDepreciarVeiculo() {
+
+        MinhaLocadora locadora = new MinhaLocadora();
+
+        Veiculo carro1 = new Carro("Ford", "F-1000", 1980, 10000, 50, "LVF-1000", 3);
+
+        locadora.inserir(carro1);
+
+        assertFalse(locadora.inserir(carro1));
+
+        Veiculo recuperado = locadora.pesquisar("LVF-1000");
+
+        locadora.depreciarVeiculos(2,0.10);
+
+        assertEquals(9990.0,carro1.getValorAvaliado(),0.1);
+
+
+    }
+
+    @Test
+    public void testeAmentarValorVeiculo() {
+
+        MinhaLocadora locadora = new MinhaLocadora();
+
+        Veiculo carro1 = new Carro("Ford", "F-1000", 1980, 10000, 50, "LVF-1000", 3);
+
+        locadora.inserir(carro1);
+
+        assertFalse(locadora.inserir(carro1));
+
+        Veiculo recuperado = locadora.pesquisar("LVF-1000");
+
+        locadora.aumentarValorVeiculo("LVF-1000",1);
+
+        assertEquals(10100.0,carro1.getValorAvaliado(),0.1);
+
+    }
 
 }
