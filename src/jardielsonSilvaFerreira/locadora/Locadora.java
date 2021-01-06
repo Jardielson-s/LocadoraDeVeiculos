@@ -1,3 +1,7 @@
+package jardielsonSilvaFerreira.locadora;
+
+import jardielsonSilvaFerreira.locadora.Cliente;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -14,11 +18,11 @@ public abstract class Locadora {
     public abstract ArrayList<Veiculo> pesquisarCaminhao(int carga);
     public abstract ArrayList<Veiculo> pesquisarOnibus(int passageiros);
 
-    //Seguro Moto = (valor do bem * 11%)/365
-    //Seguro Carro = (valor do bem * 3%)/365
+    //Seguro jardielsonSilvaFerreira.locadora.Moto = (valor do bem * 11%)/365
+    //Seguro jardielsonSilvaFerreira.locadora.Carro = (valor do bem * 3%)/365
     //Seguro Caminhão = (valor do bem * 8%)/365
     //Seguro Ônibus = (valor do bem * 20%)/365
-    //Aluguel = (valor da diária + seguro) * quantidade de dias
+    //jardielsonSilvaFerreira.locadora.Aluguel = (valor da diária + seguro) * quantidade de dias
     public abstract double calcularAluguel(String placa, int dias);
     public abstract boolean registrarAluguel(String placa, Date date,int dias, int cpf);
     public abstract boolean registrarDevolucao(String placa);

@@ -1,3 +1,5 @@
+package jardielsonSilvaFerreira.locadora;
+
 import java.util.Date;
 
 public class Aluguel {

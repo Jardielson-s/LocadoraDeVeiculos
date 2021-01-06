@@ -1,3 +1,7 @@
+package jardielsonSilvaFerreira.locadora;
+
+import jardielsonSilvaFerreira.locadora.*;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -28,12 +32,12 @@ public class MinhaLocadora extends Locadora {
         return false;
     }
 
-   /* public boolean cadastrar(Veiculo v) {
+    public boolean cadastrar(Veiculo v) {
 
         return inserir(v);
 
     }
-    */
+
 
 
     public boolean registrarAluguel(String placa, Date date,int dias,int cpf) {
@@ -170,14 +174,21 @@ public class MinhaLocadora extends Locadora {
 
     @Override
     public boolean registrarDevolucao(String placa) {
+        for(Aluguel aluguel : alugueis) {
+            if(aluguel.getVeiculo().getPlaca().equals(placa) && !aluguel.getAlugado()) {
+                return false;
+            }
+        }
 
-          for (int i = 0; i < alugueis.size(); i++) {
-              if (placa.equals(alugueis.get(i).getVeiculo().getPlaca()) && alugueis.get(i).getAlugado()) {
-                  alugueis.remove(alugueis.get(i));
-                  return true;
-              }
-          }
+        for(Aluguel aluguel : alugueis) {
+            if(aluguel.getVeiculo().getPlaca().equals(placa)) {
+                aluguel.setAlugado(false);
+                return true;
+            }
+        }
         return false;
+
+
     }
 
     @Override
@@ -344,11 +355,84 @@ public class MinhaLocadora extends Locadora {
             }
         }
 
-    public void diminuirDiaria(String placa,double taxa){
+    public void diminuirDiaria(int tipo, double taxa){
 
-        Veiculo v = pesquisar(placa);
-        if (placa.equals(v.getPlaca())) {
-            v.reduzirPrecoDiaria(taxa);
+        switch (tipo) {
+            case 0:
+                for (Veiculo aux : RepositorioVeiculos) {
+                    aux.reduzirPrecoDiaria(taxa);
+                }
+                for (Aluguel aux1 : alugueis) {
+                    Veiculo aux2;
+                    aux2 = aux1.getVeiculo();
+                    aux2.reduzirPrecoDiaria(taxa);
+                    aux1.setVeiculo(aux2);
+                }
+                break;
+            case 1:
+                for (Veiculo aux : RepositorioVeiculos) {
+                    if (aux instanceof Moto) {
+                        aux.reduzirPrecoDiaria(taxa);
+                    }
+                }
+                for (Aluguel aux : alugueis) {
+                    Veiculo aux1 = aux.getVeiculo();
+                    if (aux1 instanceof Moto) {
+                        Veiculo aux3;
+                        aux3 = aux.getVeiculo();
+                        aux3.reduzirPrecoDiaria(taxa);
+                        aux.setVeiculo(aux3);
+                    }
+                }
+                break;
+            case 2:
+                for (Veiculo aux : RepositorioVeiculos) {
+                    if (aux instanceof Carro) {
+                        aux.reduzirPrecoDiaria(taxa);
+                    }
+                }
+                for (Aluguel aux : alugueis) {
+                    Veiculo aux1 = aux.getVeiculo();
+                    if (aux1 instanceof Carro) {
+                        Veiculo aux2;
+                        aux2 = aux.getVeiculo();
+                        aux2.reduzirPrecoDiaria(taxa);
+                        aux.setVeiculo(aux2);
+                    }
+                }
+                break;
+            case 3:
+                for (Veiculo aux : RepositorioVeiculos) {
+                    if (aux instanceof Caminhao) {
+                        aux.reduzirPrecoDiaria(taxa);
+                    }
+                }
+                for (Aluguel aux : alugueis) {
+                    Veiculo aux1 = aux.getVeiculo();
+                    if (aux1 instanceof Caminhao) {
+                        Veiculo aux2;
+                        aux2 = aux.getVeiculo();
+                        aux2.reduzirPrecoDiaria(taxa);
+                        aux.setVeiculo(aux2);
+                    }
+                }
+                break;
+            case 4:
+                for (Veiculo aux : RepositorioVeiculos) {
+                    if (aux instanceof Onibus) {
+                        aux.reduzirPrecoDiaria(taxa);
+                    }
+                }
+                for (Aluguel aux : alugueis) {
+                    Veiculo aux1 = aux.getVeiculo();
+                    if (aux1 instanceof Onibus) {
+                        Veiculo aux2;
+                        aux2 = aux.getVeiculo();
+                        aux2.reduzirPrecoDiaria(taxa);
+                        aux.setVeiculo(aux2);
+                    }
+                }
+                break;
         }
 
     }
@@ -359,7 +443,7 @@ public class MinhaLocadora extends Locadora {
 
         for (Aluguel a : alugueis) {
             Veiculo aux = a.getVeiculo();
-            if (a.getAlugado()) {
+            if (!a.getAlugado()) {
                 var b =  inicio.compareTo(fim) >= inicio.compareTo(new Date());
                 switch (tipo) {
                     case 0:
@@ -405,7 +489,7 @@ public class MinhaLocadora extends Locadora {
 
             for (Aluguel a : alugueis) {
                 Veiculo aux = a.getVeiculo();
-                if (a.getAlugado()) {
+                if (!a.getAlugado()) {
                     var b = inicio.compareTo(fim) >= inicio.compareTo(new Date());
                     switch (tipo) {
                         case 0:

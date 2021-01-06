@@ -1,3 +1,5 @@
+package jardielsonSilvaFerreira.locadora;
+
 abstract public class Veiculo {
     protected String marca;
     protected String modelo;
@@ -20,15 +22,6 @@ abstract public class Veiculo {
     }
     abstract public double retornaValorSeguro();
 
-    abstract public double retornaValorAluguel(int quantidadeDias);
-
-    abstract public void reduzirPrecoDiaria(double taxa);
-
-    abstract public void aumentarPrecoDiaria(double taxa);
-
-    abstract public void depressiacaoValores(double taxa);
-
-    abstract public void aumentarValorAvaliado(double taxa);
 
     public double getValorAvaliado() {
         return valorAvaliado;
@@ -77,4 +70,29 @@ abstract public class Veiculo {
     public void setValorDiaria(double valorDiaria) {
         this.valorDiaria = valorDiaria;
     }
+
+    // MÉTODOS QUE SE APLICAM A TODAS AS CLASSES QUE ENRDAM DE VEICULOS
+
+    public void reduzirPrecoDiaria(double taxa) {
+        this.valorDiaria = valorDiaria - taxa;
+    }
+
+    public double retornaValorAluguel(int quantidadeDias) {
+        return ((valorDiaria + retornaValorSeguro()) * quantidadeDias);
+    }
+
+
+    public void aumentarPrecoDiaria(double taxa) {
+        this.valorDiaria = getValorDiaria() + ((getValorDiaria() * taxa));
+    }
+
+    public void depressiacaoValores(double taxa) {
+        this.valorAvaliado = this.valorAvaliado-(this.valorAvaliado*taxa);
+    }
+
+
+    public void aumentarValorAvaliado(double taxa) {
+        this.valorAvaliado = valorAvaliado + ((valorAvaliado * taxa));
+    }
+
 }
