@@ -13,6 +13,8 @@ public class MinhaLocadora extends Locadora {
     ArrayList<Aluguel> alugueis = new ArrayList<>();
     ArrayList<Cliente> cliente = new ArrayList<>();
 
+    ArrayList<Aluguel> alugueisDevolvidos = new ArrayList<>();
+
     public boolean pesquisarPlaca(Veiculo v) {
         for (Veiculo aux : RepositorioVeiculos) {
             if (v.getPlaca().equals(aux.getPlaca())) {
@@ -101,7 +103,7 @@ public class MinhaLocadora extends Locadora {
         return aux;
     }
 
-    @Override
+    //@Override
     public Veiculo pesquisar(String placa) {
         for (Veiculo aux : RepositorioVeiculos) {
             if (aux.getPlaca().equals(placa)) {
@@ -182,7 +184,8 @@ public class MinhaLocadora extends Locadora {
 
         for(Aluguel aluguel : alugueis) {
             if(aluguel.getVeiculo().getPlaca().equals(placa)) {
-                aluguel.setAlugado(false);
+                alugueisDevolvidos.add(aluguel);
+                alugueis.remove(aluguel);
                 return true;
             }
         }
@@ -191,33 +194,18 @@ public class MinhaLocadora extends Locadora {
 
     }
 
-    @Override
+    //@Override
     public void depreciarVeiculos(int tipo, double taxaDepreciacao) {
         switch (tipo) {
             case 0:
                 for (Veiculo aux : RepositorioVeiculos) {
                     aux.depressiacaoValores(taxaDepreciacao);
                 }
-                for (Aluguel aux1 : alugueis) {
-                    Veiculo aux2;
-                    aux2 = aux1.getVeiculo();
-                    aux2.depressiacaoValores(taxaDepreciacao);
-                    aux1.setVeiculo(aux2);
-                }
                 break;
             case 1:
                 for (Veiculo aux : RepositorioVeiculos) {
                     if (aux instanceof Moto) {
                         aux.depressiacaoValores(taxaDepreciacao);
-                    }
-                }
-                for (Aluguel aux : alugueis) {
-                    Veiculo aux1 = aux.getVeiculo();
-                    if (aux1 instanceof Moto) {
-                        Veiculo aux3;
-                        aux3 = aux.getVeiculo();
-                        aux3.depressiacaoValores(taxaDepreciacao);
-                        aux.setVeiculo(aux3);
                     }
                 }
                 break;
@@ -227,15 +215,6 @@ public class MinhaLocadora extends Locadora {
                         aux.depressiacaoValores(taxaDepreciacao);
                     }
                 }
-                for (Aluguel aux : alugueis) {
-                    Veiculo aux1 = aux.getVeiculo();
-                    if (aux1 instanceof Carro) {
-                        Veiculo aux2;
-                        aux2 = aux.getVeiculo();
-                        aux2.depressiacaoValores(taxaDepreciacao);
-                        aux.setVeiculo(aux2);
-                    }
-                }
                 break;
             case 3:
                 for (Veiculo aux : RepositorioVeiculos) {
@@ -243,29 +222,11 @@ public class MinhaLocadora extends Locadora {
                         aux.depressiacaoValores(taxaDepreciacao);
                     }
                 }
-                for (Aluguel aux : alugueis) {
-                    Veiculo aux1 = aux.getVeiculo();
-                    if (aux1 instanceof Caminhao) {
-                        Veiculo aux2;
-                        aux2 = aux.getVeiculo();
-                        aux2.depressiacaoValores(taxaDepreciacao);
-                        aux.setVeiculo(aux2);
-                    }
-                }
                 break;
             case 4:
                 for (Veiculo aux : RepositorioVeiculos) {
                     if (aux instanceof Onibus) {
                         aux.depressiacaoValores(taxaDepreciacao);
-                    }
-                }
-                for (Aluguel aux : alugueis) {
-                    Veiculo aux1 = aux.getVeiculo();
-                    if (aux1 instanceof Onibus) {
-                        Veiculo aux2;
-                        aux2 = aux.getVeiculo();
-                        aux2.depressiacaoValores(taxaDepreciacao);
-                        aux.setVeiculo(aux2);
                     }
                 }
                 break;
@@ -441,9 +402,9 @@ public class MinhaLocadora extends Locadora {
     public double faturamentoTotal(int tipo,Date inicio,Date fim) {
         double valor = 0;
 
-        for (Aluguel a : alugueis) {
+        for (Aluguel a : alugueisDevolvidos) {
             Veiculo aux = a.getVeiculo();
-            if (!a.getAlugado()) {
+            //if (a.getAlugado()) {
                 var b =  inicio.compareTo(fim) >= inicio.compareTo(new Date());
                 switch (tipo) {
                     case 0:
@@ -479,7 +440,7 @@ public class MinhaLocadora extends Locadora {
                         break;
                 }
             }
-        }
+
         return valor;
     }
 
@@ -487,9 +448,8 @@ public class MinhaLocadora extends Locadora {
         public int quantidadeTotalDeDiarias(int tipo, Date inicio, Date fim){
             int dias = 0;
 
-            for (Aluguel a : alugueis) {
+            for (Aluguel a : alugueisDevolvidos) {
                 Veiculo aux = a.getVeiculo();
-                if (!a.getAlugado()) {
                     var b = inicio.compareTo(fim) >= inicio.compareTo(new Date());
                     switch (tipo) {
                         case 0:
@@ -527,11 +487,10 @@ public class MinhaLocadora extends Locadora {
                             break;
                     }
                 }
-            }
             return dias;
         }
 
-    public double consultarAluguel(int veiculo,int qunatidadeDias,String placa) {
+    public double consultarAluguel(String placa,int qunatidadeDias, int veiculo) {
         //barra se o veiculo não for do tipo certo
         if(veiculo > 4 || veiculo < 0){
             return -9999999;
