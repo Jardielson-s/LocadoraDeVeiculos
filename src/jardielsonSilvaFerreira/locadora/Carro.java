@@ -2,6 +2,7 @@ package jardielsonSilvaFerreira.locadora;
 
 public class Carro extends Veiculo {
 
+
     // 1 (passeio), 2 (SUV), 3 (pickup)
 
     final private int tipo;
@@ -19,7 +20,7 @@ public class Carro extends Veiculo {
 
 
 
-    public int getTipo() {
+    public  int getTipo() {
         return tipo;
     }
 

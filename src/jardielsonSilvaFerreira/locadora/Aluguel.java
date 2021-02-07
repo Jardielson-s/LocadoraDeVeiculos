@@ -1,6 +1,8 @@
 package jardielsonSilvaFerreira.locadora;
 
-import java.util.Date;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Aluguel {
 
@@ -8,6 +10,8 @@ public class Aluguel {
     private int cpf;
     private Veiculo placa;
     private boolean alugado;
+    private int aluguel;
+
 
     private int dias;
    // private Date dias;
@@ -47,5 +51,7 @@ public class Aluguel {
         this.dias = dias;
         this.cpf = cpf;
         this.placa = placa;
+        this.alugado = false;
+
     }
     }

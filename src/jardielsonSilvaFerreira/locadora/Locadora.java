@@ -1,5 +1,6 @@
 package jardielsonSilvaFerreira.locadora;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -45,7 +46,7 @@ public abstract class Locadora {
 //Aluguel = (valor da diária + seguro) * quantidade de dias
  public abstract double calcularAluguel(String placa, int dias) ;
  // Retorna falso se veiculo não existir ou se estiver alugado.
- public abstract boolean registrarAluguel(String placa, Date data, int dias, int cpf);
+ public abstract boolean registrarAluguel(String placa, Date data, int dias, int cpf) throws SQLException;
  // Retorna falso se veiculo não existir ou se não estiver alugado.
  public abstract boolean registrarDevolucao(String placa);
 

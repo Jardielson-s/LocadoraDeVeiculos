@@ -3,7 +3,8 @@ package jardielsonSilvaFerreira.locadora;
 public class Moto extends Veiculo {
 
 
-   private final double cilindrada;
+
+    private final double cilindrada;
 
     Moto(String marca, String modelo, int anoDeFabricacao, double valorAvaliado, double valorDiaria, String placa, double cilindrada) {
         super(marca, modelo, anoDeFabricacao, valorAvaliado, valorDiaria, placa);
@@ -18,7 +19,7 @@ public class Moto extends Veiculo {
 
 
 
-    public double getCilindrada() {
+    public  double getCilindrada() {
         return cilindrada;
     }
 

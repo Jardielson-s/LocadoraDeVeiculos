@@ -2,6 +2,7 @@ package jardielsonSilvaFerreira.locadora;
 
 import jardielsonSilvaFerreira.locadora.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -42,7 +43,7 @@ public class MinhaLocadora extends Locadora {
 
 
 
-    public boolean registrarAluguel(String placa, Date date,int dias,int cpf) {
+    public boolean registrarAluguel(String placa, Date date,int dias,int cpf)  {
 
             for(Aluguel aux : alugueis) {
                     if(aux.getAlugado() || aux.getCliente().getCpf() == cpf) {
@@ -415,6 +416,7 @@ public class MinhaLocadora extends Locadora {
                     case 1:
                         if (aux instanceof Moto) {
                             if(b) {
+                                System.out.println("\n\naluguel---------" + a.getDias() + "-----"+valor+"\n\n");
                                 valor += a.getVeiculo().retornaValorAluguel(a.getDias());
                             }
                         }
@@ -441,6 +443,7 @@ public class MinhaLocadora extends Locadora {
                 }
             }
 
+        System.out.println(valor);
         return valor;
     }
 
